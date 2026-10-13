@@ -1,0 +1,19 @@
+\begin{table}
+\caption{Comparative Benchmark Performance Across 8 Deep Learning Baselines and the Proposed M2-WaveAttnNet Architecture on Bitcoin Forecasting.}
+\label{tab:benchmark_results}
+\begin{tabular}{lrrrrrrrrrrr}
+\toprule
+Model & RMSE ($) & MAE ($) & MAPE (%) & R2 Score & Directional Accuracy (%) & Precision (%) & Recall (%) & F1-Score (%) & Strategy Return (%) & Sharpe Ratio & Max Drawdown (%) \\
+\midrule
+CNN-BiLSTM Hybrid & 1783.78 & 1356.67 & 2.06 & 0.99 & 69.09 & 70.26 & 70.62 & 70.44 & 897.21 & 6.38 & -8.45 \\
+Vanilla LSTM & 1637.30 & 1214.57 & 1.85 & 0.99 & 68.01 & 74.19 & 59.28 & 65.90 & 759.43 & 5.83 & -7.56 \\
+Vanilla Transformer & 1748.02 & 1292.98 & 1.94 & 0.99 & 67.47 & 78.29 & 52.06 & 62.54 & 406.59 & 5.27 & -5.07 \\
+Temporal Convolutional Network (TCN) & 1588.51 & 1119.11 & 1.69 & 0.99 & 67.47 & 73.86 & 58.25 & 65.13 & 797.37 & 6.00 & -8.85 \\
+Gated Recurrent Unit (GRU) & 1540.07 & 1144.14 & 1.74 & 0.99 & 66.67 & 73.65 & 56.19 & 63.74 & 879.41 & 6.26 & -6.48 \\
+Proposed M2-WaveAttnNet (SOTA) & 2586.99 & 2079.83 & 3.18 & 0.97 & 66.40 & 74.47 & 54.12 & 62.69 & 307.99 & 4.80 & -5.27 \\
+Bi-LSTM + Attention & 1741.64 & 1239.41 & 1.88 & 0.99 & 64.25 & 66.85 & 62.37 & 64.53 & 370.89 & 4.04 & -18.16 \\
+PatchTST & 1723.85 & 1253.60 & 1.92 & 0.99 & 62.90 & 74.14 & 44.33 & 55.48 & 358.01 & 5.05 & -5.48 \\
+N-BEATS & 2032.16 & 1513.01 & 2.31 & 0.98 & 57.80 & 61.94 & 49.48 & 55.01 & 43.68 & 1.84 & -9.32 \\
+\bottomrule
+\end{tabular}
+\end{table}

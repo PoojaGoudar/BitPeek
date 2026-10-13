@@ -1,0 +1,14 @@
+\begin{table}
+\caption{Ablation Analysis Isolating the Contributions of Key Architectural Components in M2-WaveAttnNet.}
+\label{tab:ablation_results}
+\begin{tabular}{lrrrrr}
+\toprule
+Ablation Variant & Directional Accuracy (%) & RMSE ($) & MAE ($) & MAPE (%) & F1-Score (%) \\
+\midrule
+Full Proposed M2-WaveAttnNet & 71.24 & 2315.34 & 1729.43 & 2.62 & 71.00 \\
+w/o Channel Feature Gating & 66.94 & 3314.89 & 2583.58 & 3.91 & 66.12 \\
+w/o Multi-Scale Inception & 66.13 & 2638.36 & 1953.77 & 2.86 & 58.55 \\
+w/o Direction-Calibrated Loss (MSE Only) & 65.32 & 1903.90 & 1381.96 & 2.07 & 66.14 \\
+\bottomrule
+\end{tabular}
+\end{table}
