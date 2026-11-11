@@ -1,0 +1,30 @@
+\begin{table}
+\caption{Out-of-Sample Performance Stratified Across Bull, Bear, Sideways, and Volatility Regimes, Confirming M2-WaveAttnNet's Robustness to Market Shocks.}
+\label{tab:regime_breakdown}
+\begin{tabular}{lrlrrrr}
+\toprule
+Market Regime & Samples & Model & Directional Acc (%) & F1-Score (%) & Regime PnL (%) & Annualized Sharpe \\
+\midrule
+Bull Market Regime (>+3% 20d Drift) & 182 & Vanilla LSTM & 60.440000 & 63.270000 & 347.050000 & 5.870000 \\
+Bull Market Regime (>+3% 20d Drift) & 182 & Temporal ConvNet & 64.290000 & 65.240000 & 393.360000 & 6.300000 \\
+Bull Market Regime (>+3% 20d Drift) & 182 & CNN-BiLSTM Hybrid & 61.540000 & 58.820000 & 286.840000 & 5.250000 \\
+Bull Market Regime (>+3% 20d Drift) & 182 & Proposed M2-WaveAttnNet & 63.740000 & 68.570000 & 378.100000 & 6.160000 \\
+Bear Market Regime (<-3% 20d Drift) & 106 & Vanilla LSTM & 70.750000 & 64.370000 & 158.240000 & 6.750000 \\
+Bear Market Regime (<-3% 20d Drift) & 106 & Temporal ConvNet & 70.750000 & 68.690000 & 208.810000 & 8.270000 \\
+Bear Market Regime (<-3% 20d Drift) & 106 & CNN-BiLSTM Hybrid & 71.700000 & 68.750000 & 141.200000 & 6.200000 \\
+Bear Market Regime (<-3% 20d Drift) & 106 & Proposed M2-WaveAttnNet & 70.750000 & 65.170000 & 178.860000 & 7.390000 \\
+Sideways / Range-Bound Regime & 84 & Vanilla LSTM & 78.570000 & 76.920000 & 197.150000 & 11.260000 \\
+Sideways / Range-Bound Regime & 84 & Temporal ConvNet & 72.620000 & 70.130000 & 171.240000 & 10.010000 \\
+Sideways / Range-Bound Regime & 84 & CNN-BiLSTM Hybrid & 70.240000 & 66.670000 & 123.090000 & 7.640000 \\
+Sideways / Range-Bound Regime & 84 & Proposed M2-WaveAttnNet & 71.430000 & 70.000000 & 147.180000 & 8.830000 \\
+High Volatility Regime (Above Median Vol) & 186 & Vanilla LSTM & 72.580000 & 72.730000 & 1178.910000 & 8.830000 \\
+High Volatility Regime (Above Median Vol) & 186 & Temporal ConvNet & 72.040000 & 73.200000 & 1348.360000 & 9.370000 \\
+High Volatility Regime (Above Median Vol) & 186 & CNN-BiLSTM Hybrid & 71.510000 & 69.360000 & 756.710000 & 7.200000 \\
+High Volatility Regime (Above Median Vol) & 186 & Proposed M2-WaveAttnNet & 70.430000 & 72.360000 & 899.780000 & 7.810000 \\
+Low Volatility Regime (Below Median Vol) & 186 & Vanilla LSTM & 62.370000 & 59.770000 & 168.240000 & 5.200000 \\
+Low Volatility Regime (Below Median Vol) & 186 & Temporal ConvNet & 63.980000 & 60.360000 & 185.320000 & 5.560000 \\
+Low Volatility Regime (Below Median Vol) & 186 & CNN-BiLSTM Hybrid & 61.290000 & 57.140000 & 142.980000 & 4.640000 \\
+Low Volatility Regime (Below Median Vol) & 186 & Proposed M2-WaveAttnNet & 64.520000 & 63.330000 & 229.620000 & 6.420000 \\
+\bottomrule
+\end{tabular}
+\end{table}

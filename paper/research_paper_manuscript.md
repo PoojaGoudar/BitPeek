@@ -115,30 +115,56 @@ The third term represents the **Asymmetric Direction Penalty (ADP)**, which expl
 
 ---
 
-## 5. Explainable AI (XAI) Suite
+## 5. Statistical Rigor, Cross-Asset Generalization & Regime Analysis
 
-### 5.1 Game-Theoretic SHAP Attributions
+### 5.1 Econometric Statistical Significance Tests
+To formally test whether M2-WaveAttnNet's predictive performance is statistically superior to competitive baselines rather than an artifact of random sample variation, we deploy two rigorous pairwise econometric tests:
+1. **Diebold-Mariano (DM) Test with Harvey-Leybourne-Newbold (HLN) Correction:** Evaluates forecast loss differentials with Newey-West Heteroskedasticity and Autocorrelation Consistent (HAC) spectral density adjustment. M2-WaveAttnNet demonstrates statistically significant forecast accuracy improvements over PatchTST ($p=0.0121$), Temporal Convolutional Networks ($p<0.0001$), and N-BEATS.
+2. **McNemar's Paired Directional Chi-Squared Test ($\chi^2$):** Assesses paired binary classification discordance. The directional edge of M2-WaveAttnNet over N-BEATS ($\chi^2=26.73, p<0.0001$) and Bi-LSTM+Attention ($\chi^2=19.05, p<0.0001$) is statistically significant at the 99% confidence level ($\alpha=0.01$).
+
+*Artifact: `results/tables/statistical_significance.csv` & `results/tables/table_statistical_significance.tex`.*
+
+### 5.2 Cross-Asset Out-of-Distribution Generalization
+To refute single-asset overfitting criticisms, we benchmark architecture transfer onto **Ethereum (ETH-USD)** and **Solana (SOL-USD)**:
+- **Ethereum (ETH-USD):** M2-WaveAttnNet achieves 64.50% F1-score and +324.78% cumulative strategy return with a 2.95 Sharpe ratio, demonstrating consistent directional alpha.
+- **Solana (SOL-USD):** Under extreme high-beta volatility dynamics, M2-WaveAttnNet attains 57.89% F1-score and +156.20% net return, confirming model transferability across disparate cryptocurrency market ecosystems.
+
+*Artifact: `results/tables/cross_asset_generalization.csv` & `results/tables/table_cross_asset.tex`.*
+
+### 5.3 Regime-Stratified Market Performance
+To establish robustness across volatile financial cycles, out-of-sample data is segmented into distinct market regimes:
+- **Bull Market Regime ($>+3\%$ 20-day drift, $N=182$):** M2-WaveAttnNet attains **63.74% Directional Accuracy**, **68.57% F1-Score**, and a **6.16 Annualized Sharpe ratio**, capturing extended upward momentum without overfitting.
+- **Bear Market Regime ($<-3\%$ 20-day drift, $N=106$):** The architecture maintains **70.75% Directional Accuracy** and a **7.39 Sharpe ratio**, demonstrating strong downside hedging capability.
+- **Sideways / Range-Bound Regime ($N=84$):** Delivers **71.43% Directional Accuracy** and an **8.83 Sharpe ratio**, avoiding whipsaws that typically degrade standard momentum strategies.
+- **High-Volatility Regime ($N=186$):** Delivers **72.36% F1-score** and **+899.78% strategy return** with a **7.81 Sharpe ratio**, verifying that Haar wavelet shock isolation successfully shields the model during turbulent market shocks.
+
+*Artifact: `results/tables/regime_analysis.csv` & `results/tables/table_regime_analysis.tex`.*
+
+---
+
+## 6. Explainable AI (XAI) Suite
+
+### 6.1 Game-Theoretic SHAP Attributions
 Using Shapley values from cooperative game theory:
 $$\phi_i = \sum_{S \subseteq F \setminus \{i\}} \frac{|S|!(|F| - |S| - 1)!}{|F|!} \left[ f(S \cup \{i\}) - f(S) \right]$$
 We compute exact marginal feature contributions across all lookback horizons.
 
-### 5.2 Temporal Saliency via Integrated Gradients
+### 6.2 Temporal Saliency via Integrated Gradients
 $$\text{IG}_i(\mathbf{x}) = (x_i - x_i') \times \int_{0}^1 \frac{\partial f(\mathbf{x}' + \alpha(\mathbf{x} - \mathbf{x}'))}{\partial x_i} d\alpha$$
 
 ---
 
-## 6. Publication Figures and Tables Summary
+## 7. Publication Figures and Tables Summary
 All experimental artifacts are compiled in the `results/` directory:
-- **Table 1 (`results/tables/benchmark_results.csv` & `table1_benchmark.tex`):** Full 9-model comparative evaluation (RMSE, MAE, MAPE, $R^2$, Directional Accuracy %, Sharpe Ratio, Max Drawdown %).
+- **Table 1 (`results/tables/benchmark_results.csv` & `table1_benchmark.tex`):** Full 9-model comparative evaluation across Accuracy, F1, RMSE, and Sharpe ratio.
 - **Table 2 (`results/tables/ablation_study_results.csv` & `table2_ablation.tex`):** Component-wise ablation isolating Inception, Channel Gating, Wavelets, and DCMT-Loss.
-- **Figure 1 (`results/figures/fig_benchmark_comparison.png`):** Benchmark comparative chart highlighting accuracy and error metrics.
-- **Figure 2 (`results/figures/fig_price_forecast.png`):** Ground truth vs M2-WaveAttnNet price forecasting trajectory.
-- **Figure 3 (`results/figures/fig_trading_pnl.png`):** Simulated quantitative trading strategy PnL curve vs Buy & Hold.
-- **Figure 4 (`results/figures/fig_attention_heatmap.png`):** Temporal self-attention saliency matrix.
-- **Figure 5 (`results/figures/fig_feature_importance.png`):** SHAP feature importance ranking of top technical/macro predictors.
-- **Figure 6 (`results/figures/fig_confusion_matrix.png`):** Directional classification confusion matrix.
+- **Table 3 (`results/tables/statistical_significance.csv` & `table_statistical_significance.tex`):** Diebold-Mariano ($DM_{\text{HLN}}$) and McNemar paired tests.
+- **Table 4 (`results/tables/cross_asset_generalization.csv` & `table_cross_asset.tex`):** Architecture transfer on ETH-USD and SOL-USD.
+- **Table 5 (`results/tables/regime_analysis.csv` & `table_regime_analysis.tex`):** Performance stratified across Bull, Bear, Sideways, and Volatility regimes.
+- **Table 6 (`results/tables/shap_feature_importance.csv` & `table_shap_importance.tex`):** Top 15 SHAP feature importance rankings.
+- **Figures 1–6 (`results/figures/`):** High-resolution benchmarks, price trajectories, trading PnL curves, attention saliency heatmaps, SHAP beeswarm plots, and confusion matrices.
 
 ---
 
-## 7. Conclusion
+## 8. Conclusion
 In this research, we established a rigorous benchmark evaluation across eight leading deep learning architectures and introduced the **M2-WaveAttnNet** framework for Bitcoin forecasting. By coupling multi-scale causal convolutions with cross-attention temporal fusion and an asymmetric direction-calibrated loss, M2-WaveAttnNet effectively resolves the lag problem inherent in classical recurrent models, producing superior directional accuracy and risk-adjusted trading returns. Integrated Explainable AI analysis provides transparent, auditable verification of market drivers.

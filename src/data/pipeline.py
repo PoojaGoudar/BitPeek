@@ -45,7 +45,8 @@ class CryptoDataPipeline:
         Cache is automatically invalidated if macro columns are missing.
         """
         MACRO_COLS = ['eth_return_1d', 'dxy_return_1d', 'spx_return_1d', 'gold_return_1d']
-        cache_path = os.path.join(os.path.dirname(__file__), "..", "..", "results", "btc_cache.csv")
+        ticker_slug = self.ticker.lower().replace('-', '_').replace('^', '')
+        cache_path = os.path.join(os.path.dirname(__file__), "..", "..", "results", f"{ticker_slug}_cache.csv")
         os.makedirs(os.path.dirname(cache_path), exist_ok=True)
 
         if os.path.exists(cache_path):
@@ -56,7 +57,7 @@ class CryptoDataPipeline:
                 self.df_raw = cached
                 return self.df_raw
             else:
-                print("[*] Cache missing macro columns — re-downloading with enriched features...")
+                print(f"[*] Cache ({ticker_slug}) missing macro columns — re-downloading with enriched features...")
 
         print(f"[*] Fetching historical market data for {self.ticker} ({self.start_date} to {self.end_date})...")
         try:
@@ -84,9 +85,10 @@ class CryptoDataPipeline:
                 print(f"[!] Warning downloading {ticker_sym}: {e}")
             return None
 
-        # ETH — crypto cross-asset momentum
-        eth_ret = _safe_log_return("ETH-USD")
-        btc['eth_return_1d'] = eth_ret if eth_ret is not None else btc['Close'].pct_change().fillna(0.0) * 1.2
+        # Crypto cross-asset momentum (ETH for BTC, or BTC for other assets)
+        cross_ticker = "ETH-USD" if self.ticker != "ETH-USD" else "BTC-USD"
+        cross_ret = _safe_log_return(cross_ticker)
+        btc['eth_return_1d'] = cross_ret if cross_ret is not None else btc['Close'].pct_change().fillna(0.0) * 1.1
 
         # US Dollar Index — inverse BTC correlation (stronger dollar → risk-off)
         dxy_ret = _safe_log_return("DX-Y.NYB")

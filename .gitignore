@@ -42,4 +42,5 @@ Thumbs.db
 
 # Data caches
 results/btc_cache.csv
+results/*_cache.csv
 *.cache.csv

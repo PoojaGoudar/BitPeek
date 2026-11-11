@@ -1,0 +1,9 @@
+Asset,Model,Directional Acc (%),F1-Score (%),Precision (%),RMSE ($),MAPE (%),Strategy Return (%),Sharpe Ratio,Max Drawdown (%)
+Ethereum (ETH),Vanilla LSTM,63.44,66.5,63.68,93.59,2.25,777.02,4.81,-10.28
+Ethereum (ETH),CNN-BiLSTM Hybrid,61.56,53.72,72.17,104.24,2.61,663.49,5.24,-5.1
+Ethereum (ETH),Temporal ConvNet (TCN),62.37,63.54,64.21,110.19,2.56,598.2,4.42,-16.42
+Ethereum (ETH),Proposed M2-WaveAttnNet,58.87,64.5,58.65,115.09,2.94,324.78,2.95,-20.86
+Solana (SOL),Vanilla LSTM,63.27,64.38,60.48,6.9,3.19,311.88,4.43,-19.92
+Solana (SOL),CNN-BiLSTM Hybrid,64.6,67.21,60.74,6.82,3.35,334.98,4.48,-15.26
+Solana (SOL),Temporal ConvNet (TCN),59.73,60.26,57.5,6.38,2.95,275.72,4.14,-20.49
+Solana (SOL),Proposed M2-WaveAttnNet,57.52,57.89,55.46,7.65,3.77,156.2,2.94,-24.5

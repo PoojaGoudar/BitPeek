@@ -1,0 +1,21 @@
+Market Regime,Samples,Model,Directional Acc (%),F1-Score (%),Regime PnL (%),Annualized Sharpe
+Bull Market Regime (>+3% 20d Drift),182,Vanilla LSTM,60.44,63.27,347.05,5.87
+Bull Market Regime (>+3% 20d Drift),182,Temporal ConvNet,64.29,65.24,393.36,6.3
+Bull Market Regime (>+3% 20d Drift),182,CNN-BiLSTM Hybrid,61.54,58.82,286.84,5.25
+Bull Market Regime (>+3% 20d Drift),182,Proposed M2-WaveAttnNet,63.74,68.57,378.1,6.16
+Bear Market Regime (<-3% 20d Drift),106,Vanilla LSTM,70.75,64.37,158.24,6.75
+Bear Market Regime (<-3% 20d Drift),106,Temporal ConvNet,70.75,68.69,208.81,8.27
+Bear Market Regime (<-3% 20d Drift),106,CNN-BiLSTM Hybrid,71.7,68.75,141.2,6.2
+Bear Market Regime (<-3% 20d Drift),106,Proposed M2-WaveAttnNet,70.75,65.17,178.86,7.39
+Sideways / Range-Bound Regime,84,Vanilla LSTM,78.57,76.92,197.15,11.26
+Sideways / Range-Bound Regime,84,Temporal ConvNet,72.62,70.13,171.24,10.01
+Sideways / Range-Bound Regime,84,CNN-BiLSTM Hybrid,70.24,66.67,123.09,7.64
+Sideways / Range-Bound Regime,84,Proposed M2-WaveAttnNet,71.43,70.0,147.18,8.83
+High Volatility Regime (Above Median Vol),186,Vanilla LSTM,72.58,72.73,1178.91,8.83
+High Volatility Regime (Above Median Vol),186,Temporal ConvNet,72.04,73.2,1348.36,9.37
+High Volatility Regime (Above Median Vol),186,CNN-BiLSTM Hybrid,71.51,69.36,756.71,7.2
+High Volatility Regime (Above Median Vol),186,Proposed M2-WaveAttnNet,70.43,72.36,899.78,7.81
+Low Volatility Regime (Below Median Vol),186,Vanilla LSTM,62.37,59.77,168.24,5.2
+Low Volatility Regime (Below Median Vol),186,Temporal ConvNet,63.98,60.36,185.32,5.56
+Low Volatility Regime (Below Median Vol),186,CNN-BiLSTM Hybrid,61.29,57.14,142.98,4.64
+Low Volatility Regime (Below Median Vol),186,Proposed M2-WaveAttnNet,64.52,63.33,229.62,6.42

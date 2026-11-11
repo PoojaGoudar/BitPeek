@@ -1,0 +1,18 @@
+\begin{table}
+\caption{Econometric Statistical Significance Tests Comparing M2-WaveAttnNet Against 8 Deep Learning Baselines (Diebold-Mariano and McNemar Paired Tests; *** p<0.01, ** p<0.05, * p<0.10).}
+\label{tab:stat_significance}
+\begin{tabular}{lrlrlrlll}
+\toprule
+Baseline Architecture & DM Stat (MSE) & DM p-val (MSE) & DM Stat (MAE) & DM p-val (MAE) & McNemar χ² & McNemar p-val & DA Sig (p<0.05) & Wilcoxon p-val \\
+\midrule
+Vanilla LSTM & -3.413000 & 0.9996 & -4.305000 & 1.0000 & 0.016000 & 0.8989 & n.s. & 1.0000 \\
+Bi-LSTM + Attention & 1.205000 & 0.1145 & -0.057000 & 0.5225 & 19.048000 & <0.0001 & *** & 0.8969 \\
+GRU & -4.660000 & 1.0000 & -5.365000 & 1.0000 & 0.000000 & 1.0000 & n.s. & 1.0000 \\
+Temporal ConvNet & 4.739000 & <0.0001 & 4.986000 & <0.0001 & 0.016000 & 0.8989 & n.s. & <0.0001 \\
+TimeSeries Transformer & -4.196000 & 1.0000 & -4.752000 & 1.0000 & 0.015000 & 0.9020 & n.s. & 1.0000 \\
+PatchTST & 2.262000 & 0.0121 & 1.412000 & 0.0794 & 0.010000 & 0.9203 & n.s. & 0.1109 \\
+N-BEATS & 1.226000 & 0.1105 & -0.111000 & 0.5442 & 26.728000 & <0.0001 & *** & 0.8239 \\
+CNN-BiLSTM Hybrid & -2.476000 & 0.9931 & -3.164000 & 0.9992 & 0.107000 & 0.7434 & n.s. & 0.9991 \\
+\bottomrule
+\end{tabular}
+\end{table}
