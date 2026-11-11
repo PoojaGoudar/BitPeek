@@ -39,3 +39,7 @@ wheels/
 *.swo
 .DS_Store
 Thumbs.db
+
+# Data caches
+results/btc_cache.csv
+*.cache.csv

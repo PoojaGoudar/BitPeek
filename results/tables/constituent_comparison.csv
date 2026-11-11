@@ -1,0 +1,6 @@
+Architecture,Params,Test DA (%),Test F1 (%),RMSE ($),MAE ($),R2
+L3: Temporal Cross-Attention,45282,67.2,63.03,1619.9,1326.84,0.988
+FULL: M2-WaveAttnNet (Hybrid),438486,65.32,69.06,2385.29,2146.27,0.974
+L4: Residual Dense Trunk,179362,49.46,14.55,1203.17,1000.91,0.9934
+L1: Channel Gating,9062,47.85,22.4,533.23,453.56,0.9987
+L2: Multi-Scale Inception Conv,100770,47.85,0.0,803.15,767.29,0.9971

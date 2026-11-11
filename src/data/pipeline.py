@@ -40,7 +40,24 @@ class CryptoDataPipeline:
         self.df_engineered = None
 
     def fetch_data(self) -> pd.DataFrame:
-        """Fetches BTC data and macro proxies."""
+        """Fetches BTC data and macro proxies with local caching.
+        Macro features: ETH, DXY (US Dollar Index), S&P 500, Gold.
+        Cache is automatically invalidated if macro columns are missing.
+        """
+        MACRO_COLS = ['eth_return_1d', 'dxy_return_1d', 'spx_return_1d', 'gold_return_1d']
+        cache_path = os.path.join(os.path.dirname(__file__), "..", "..", "results", "btc_cache.csv")
+        os.makedirs(os.path.dirname(cache_path), exist_ok=True)
+
+        if os.path.exists(cache_path):
+            cached = pd.read_csv(cache_path, index_col=0, parse_dates=True)
+            if all(c in cached.columns for c in MACRO_COLS):
+                print(f"[*] Loading historical market data from local cache: {cache_path}...")
+                cached[MACRO_COLS] = cached[MACRO_COLS].fillna(0.0)
+                self.df_raw = cached
+                return self.df_raw
+            else:
+                print("[*] Cache missing macro columns — re-downloading with enriched features...")
+
         print(f"[*] Fetching historical market data for {self.ticker} ({self.start_date} to {self.end_date})...")
         try:
             btc = yf.download(self.ticker, start=self.start_date, end=self.end_date, progress=False)
@@ -49,20 +66,46 @@ class CryptoDataPipeline:
             if btc.empty or len(btc) < 100:
                 raise ValueError("Downloaded data empty or insufficient length.")
         except Exception as e:
-            print(f"[!] Warning fetching live data ({e}). Generating realistic calibrated market series...")
+            print(f"[!] Warning fetching live data ({e}). Generating synthetic series...")
             btc = self._generate_synthetic_crypto_data()
 
-        # Fetch Macro Proxies (ETH, Gold, SP500) if possible
-        try:
-            eth = yf.download("ETH-USD", start=self.start_date, end=self.end_date, progress=False)
-            if isinstance(eth.columns, pd.MultiIndex):
-                eth.columns = eth.columns.get_level_values(0)
-            if not eth.empty:
-                btc['eth_return_1d'] = np.log(eth['Close'] / eth['Close'].shift(1))
-        except Exception:
-            btc['eth_return_1d'] = btc['Close'].pct_change() * 1.2
+        def _safe_log_return(ticker_sym):
+            """Download a ticker and return its 1-day log return aligned to btc index."""
+            try:
+                df = yf.download(ticker_sym, start=self.start_date, end=self.end_date, progress=False)
+                if isinstance(df.columns, pd.MultiIndex):
+                    df.columns = df.columns.get_level_values(0)
+                if not df.empty:
+                    # Forward-fill closing prices across weekends/holidays so market closures have 0.0 return
+                    close_aligned = df['Close'].reindex(btc.index).ffill().bfill()
+                    ret = np.log(close_aligned / close_aligned.shift(1)).fillna(0.0)
+                    return ret
+            except Exception as e:
+                print(f"[!] Warning downloading {ticker_sym}: {e}")
+            return None
+
+        # ETH — crypto cross-asset momentum
+        eth_ret = _safe_log_return("ETH-USD")
+        btc['eth_return_1d'] = eth_ret if eth_ret is not None else btc['Close'].pct_change().fillna(0.0) * 1.2
+
+        # US Dollar Index — inverse BTC correlation (stronger dollar → risk-off)
+        dxy_ret = _safe_log_return("DX-Y.NYB")
+        btc['dxy_return_1d'] = dxy_ret if dxy_ret is not None else 0.0
+
+        # S&P 500 — risk-on / risk-off macro signal
+        spx_ret = _safe_log_return("^GSPC")
+        btc['spx_return_1d'] = spx_ret if spx_ret is not None else 0.0
+
+        # Gold — alternative safe-haven / inflation hedge cross-signal
+        gold_ret = _safe_log_return("GLD")
+        btc['gold_return_1d'] = gold_ret if gold_ret is not None else 0.0
+
+        # Ensure all macro columns have strictly zero NaNs
+        btc[MACRO_COLS] = btc[MACRO_COLS].fillna(0.0)
 
         self.df_raw = btc.dropna(subset=['Open', 'High', 'Low', 'Close', 'Volume'])
+        self.df_raw.to_csv(cache_path)
+        print(f"[+] Saved enriched data to cache: {cache_path}")
         return self.df_raw
 
     def _generate_synthetic_crypto_data(self) -> pd.DataFrame:
